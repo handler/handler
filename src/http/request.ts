@@ -1,10 +1,7 @@
 import * as net from 'net';
-import * as qs from 'querystring';
-import { format as urlFormat } from 'url';
 
 const accepts = require('accepts');
 import * as contentType from 'content-type';
-import * as parseurl from 'parseurl';
 const typeis = require('type-is');
 
 import { HTTPContext } from './context';
@@ -14,7 +11,6 @@ const _body = new WeakMap<HTTPRequest, any>();
 const _context = new WeakMap<HTTPRequest, HTTPContext>();
 const _headers = new WeakMap<HTTPRequest, HTTPRequestHeaders>();
 const _method = new WeakMap<HTTPRequest, string>();
-const _originalUrl = new WeakMap<HTTPRequest, string>();
 const _params = new WeakMap<HTTPRequest, any>();
 const _path = new WeakMap<HTTPRequest, string>();
 const _proxy = new WeakMap<HTTPRequest, boolean>();
@@ -61,7 +57,6 @@ export class HTTPRequest {
   // You may call this.accepts() as many times as you like, or use a switch.
   accepts(...types: any[]): string | string[] | boolean {
     const accept = _accept.get(this);
-    const ctx = _context.get(this);
     return accept.types.apply(accept, arguments);
   }
 
@@ -70,7 +65,6 @@ export class HTTPRequest {
   // When no arguments are given all accepted charsets are returned as an array.
   acceptsCharsets(...charsets: any[]): string | string[] | boolean {
     const accept = _accept.get(this);
-    const ctx = _context.get(this);
     return accept.charsets.apply(accept, arguments);
   }
 
@@ -84,7 +78,6 @@ export class HTTPRequest {
   // Although this is an edge case, you should still handle the case where this method returns false.
   acceptsEncodings(...encodings: any[]): string | string[] | boolean {
     const accept = _accept.get(this);
-    const ctx = _context.get(this);
     return accept.encodings.apply(accept, arguments);
   }
 
@@ -93,7 +86,6 @@ export class HTTPRequest {
   // When no arguments are given all accepted languages are returned as an array.
   acceptsLanguages(...langs: any[]): string | string[] | boolean {
     const accept = _accept.get(this);
-    const ctx = _context.get(this);
     return accept.languages.apply(accept, arguments);
   }
 

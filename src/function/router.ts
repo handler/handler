@@ -1,4 +1,4 @@
-import { Route, Router } from '../router';
+import { Router } from '../router';
 import { FunctionHandler } from './handler';
 
 export interface FunctionRouteMatch {

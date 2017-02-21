@@ -1,7 +1,6 @@
 const pathMatch = require('path-match');
 
 import { PATH_PREFIX } from './const';
-import { env } from './env';
 import { Handler } from './handler';
 
 const _createMatch = pathMatch();
@@ -46,7 +45,7 @@ export abstract class Router {
       .replace(/\/((?:\?.*)?)$/, '$1')
       // ensure url starts with a slash
       .replace(/^([^/]|$)/, '/$1');
-    if (result !== path && result !== '/') {
+    if (result !== path) {
       return `${PATH_PREFIX}${result}`;
     }
     return null;

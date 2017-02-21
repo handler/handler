@@ -1,5 +1,3 @@
-import * as net from 'net';
-
 import * as httpAssert from 'http-assert';
 import * as httpErrors from 'http-errors';
 

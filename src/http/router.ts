@@ -1,4 +1,4 @@
-import { Route, Router } from '../router';
+import { Router } from '../router';
 import { HTTPHandler } from './handler';
 
 export interface HTTPRouteMatch {
