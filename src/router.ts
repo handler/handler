@@ -38,15 +38,17 @@ export abstract class Router {
 
   _rewritePath(path: string): string {
     path = this._removePrefix(path);
-    const result = path
-      // collapse repeated slashes
+    let result = path
+      // Collapse repeated slashes
       .replace(/(\/+)/g, '/')
-      // remove trailing slash while preserving querystring
+      // Remove trailing slash while preserving querystring
       .replace(/\/((?:\?.*)?)$/, '$1')
-      // ensure url starts with a slash
-      .replace(/^([^/]|$)/, '/$1')
-      // replace exact slash string with empty string
-      .replace(/^\/$/, '');
+      // Ensure url starts with a slash
+      .replace(/^([^/]|$)/, '/$1');
+    // Handle non-empty path prefix case
+    if (PATH_PREFIX !== '' && result === '/') {
+      result = '';
+    }
     if (result !== path) {
       return `${PATH_PREFIX}${result}`;
     }
