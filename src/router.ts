@@ -44,7 +44,9 @@ export abstract class Router {
       // remove trailing slash while preserving querystring
       .replace(/\/((?:\?.*)?)$/, '$1')
       // ensure url starts with a slash
-      .replace(/^([^/]|$)/, '/$1');
+      .replace(/^([^/]|$)/, '/$1')
+      // replace exact slash string with empty string
+      .replace(/^\/$/, '');
     if (result !== path) {
       return `${PATH_PREFIX}${result}`;
     }
