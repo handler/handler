@@ -188,6 +188,10 @@ export class HTTPRequest {
     _method.set(this, value);
   }
 
+  get params(): any {
+    return _params.get(this);
+  }
+
   get path(): string {
     return _path.get(this);
   }
