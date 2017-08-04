@@ -1,4 +1,5 @@
 import { Application, RoutePath } from '../app';
+import { NextFunction } from '../handler';
 import { composeHandlers, removePrefix } from '../util';
 import { HTTPContext, HTTPContextOptions } from './context';
 import { HTTPHandler } from './handler';
@@ -79,9 +80,10 @@ export class HTTPApplication extends Application {
       return ctx;
     }
 
+    const middlewares = this._middlewares.concat(_errorHandler);
     const matches = this._matchRoute(options.method, options.path);
     const matchedHandlers = matches.map((match) => match.handler);
-    const handlers = this._middlewares.concat(matchedHandlers);
+    const handlers = middlewares.concat(matchedHandlers);
 
     const preHandle = async (h: HTTPHandler, c: HTTPContext) => {
       for (const match of matches) {
@@ -118,5 +120,16 @@ export class HTTPApplication extends Application {
       });
     }
     return result;
+  }
+}
+
+async function _errorHandler(ctx: HTTPContext, next: NextFunction) {
+  try {
+    await next();
+  } catch (err) {
+    ctx.res.status = err.statusCode || err.status || 500;
+    ctx.res.body = {
+      message: err.message,
+    };
   }
 }

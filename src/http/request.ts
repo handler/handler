@@ -5,6 +5,7 @@ import * as contentType from 'content-type';
 const typeis = require('type-is');
 
 import { HTTPContext } from './context';
+import { HTTPRequestHeaders } from './header';
 
 const _accept = new WeakMap<HTTPRequest, any>();
 const _body = new WeakMap<HTTPRequest, any>();
@@ -17,12 +18,6 @@ const _proxy = new WeakMap<HTTPRequest, boolean>();
 const _query = new WeakMap<HTTPRequest, any>();
 const _subdomainOffset = new WeakMap<HTTPRequest, number>();
 const _url = new WeakMap<HTTPRequest, string>();
-
-export interface HTTPRequestHeaders {
-  referer?: string;
-  referrer?: string;
-  [field: string]: string;
-}
 
 export interface HTTPRequestOptions {
   body: any;

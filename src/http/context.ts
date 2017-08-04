@@ -1,6 +1,7 @@
 import * as httpAssert from 'http-assert';
 import * as httpErrors from 'http-errors';
 
+import { HTTPRequestHeaders } from './header';
 import { HTTPRequest } from './request';
 import { HTTPResponse } from './response';
 
@@ -46,6 +47,106 @@ export class HTTPContext {
 
   get res(): HTTPResponse {
     return _response.get(this);
+  }
+
+  // Request delegates
+  accepts(...types: any[]): string | string[] | boolean {
+    return this.req.accepts(...types);
+  }
+  acceptsCharsets(...charsets: any[]): string | string[] | boolean {
+    return this.req.acceptsCharsets(...charsets);
+  }
+  acceptsEncodings(...encodings: any[]): string | string[] | boolean {
+    return this.req.acceptsEncodings(...encodings);
+  }
+  acceptsLanguages(...langs: any[]): string | string[] | boolean {
+    return this.req.acceptsLanguages(...langs);
+  }
+  get(field: string): string {
+    return this.req.get(field);
+  }
+  get headers(): HTTPRequestHeaders {
+    return this.req.headers;
+  }
+  get host(): string {
+    return this.req.host;
+  }
+  get hostname(): string {
+    return this.req.hostname;
+  }
+  get ip(): string {
+    return this.req.ip;
+  }
+  get ips(): string[] {
+    return this.req.ips;
+  }
+  is(types: string[]): boolean {
+    return this.req.is(types);
+  }
+  get method(): string {
+    return this.req.method;
+  }
+  set method(value: string) {
+    this.req.method = value;
+  }
+  get params(): any {
+    return this.req.params;
+  }
+  set params(value: any) {
+    this.req.params = value;
+  }
+  get path(): string {
+    return this.req.path;
+  }
+  get protocol(): string {
+    return this.req.protocol;
+  }
+  get query(): any {
+    return this.req.query;
+  }
+  get secure(): boolean {
+    return this.req.secure;
+  }
+  get subdomains(): string[] {
+    return this.req.subdomains;
+  }
+  get url(): string {
+    return this.req.url;
+  }
+  set url(value: string) {
+    this.req.url = value;
+  }
+
+  // Response delegates
+  append(field: string, values: string | string[]): void {
+    return this.res.append(field, values);
+  }
+  get body(): any {
+    return this.res.body;
+  }
+  set body(value: any) {
+    this.res.body = value;
+  }
+  redirect(url: string, alt?: string): void {
+    return this.res.redirect(url, alt);
+  }
+  remove(field: string) {
+    return this.res.remove(field);
+  }
+  set(field: string, value: string): void {
+    return this.res.set(field, value);
+  }
+  get status(): number {
+    return this.res.status;
+  }
+  set status(code: number) {
+    this.res.status = code;
+  }
+  get type(): string {
+    return this.res.type;
+  }
+  set type(value: string) {
+    this.res.type = value;
   }
 
   // Similar to .throw(), adds assertion.
