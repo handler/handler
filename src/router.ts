@@ -16,17 +16,17 @@ export abstract class Router {
   middlewares: Handler[] = [];
   routes: Route[] = [];
 
-  _addRoute(method: string, path: string, handler: Handler) {
+  protected _addRoute(method: string, path: string, handler: Handler) {
     const route = {
       handler,
-      path,
       match: _createMatch(path),
       method,
+      path,
     };
     this.routes.push(route);
   }
 
-  _removePrefix(path: string): string {
+  protected _removePrefix(path: string): string {
     if (PATH_PREFIX === '' || PATH_PREFIX === '/') {
       return path;
     }
@@ -36,7 +36,7 @@ export abstract class Router {
     return path.slice(PATH_PREFIX.length);
   }
 
-  _rewritePath(path: string): string {
+  protected _rewritePath(path: string): string {
     path = this._removePrefix(path);
     let result = path
       // Collapse repeated slashes
