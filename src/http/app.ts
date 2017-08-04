@@ -80,7 +80,7 @@ export class HTTPApplication extends Application {
       return ctx;
     }
 
-    const middlewares = this._middlewares.concat(_errorHandler);
+    const middlewares = [_errorHandler].concat(this._middlewares);
     const matches = this._matchRoute(options.method, options.path);
     const matchedHandlers = matches.map((match) => match.handler);
     const handlers = middlewares.concat(matchedHandlers);
