@@ -1,4 +1,3 @@
-import { FunctionHandler } from './function/handler';
-import { HTTPHandler } from './http/handler';
+export type Handler = (ctx: any, next?: NextFunction) => Promise<any>;
 
-export type Handler = FunctionHandler | HTTPHandler;
+export type NextFunction = () => Promise<void>;

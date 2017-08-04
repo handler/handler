@@ -192,6 +192,10 @@ export class HTTPRequest {
     return _params.get(this);
   }
 
+  set params(value: any) {
+    _params.set(this, value);
+  }
+
   get path(): string {
     return _path.get(this);
   }

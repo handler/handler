@@ -1,15 +1,15 @@
-const _body = new WeakMap<FunctionRequest, any>();
-const _context = new WeakMap<FunctionRequest, any>();
-const _path = new WeakMap<FunctionRequest, string>();
+const _body = new WeakMap<FunctionContext, any>();
+const _context = new WeakMap<FunctionContext, any>();
+const _path = new WeakMap<FunctionContext, string>();
 
-export interface FunctionRequestOptions {
+export interface FunctionContextOptions {
   body: any;
   context?: any;
   path?: string;
 }
 
-export class FunctionRequest {
-  constructor(options: FunctionRequestOptions) {
+export class FunctionContext {
+  constructor(options: FunctionContextOptions) {
     _body.set(this, options.body);
     _context.set(this, options.context);
     _path.set(this, options.path);

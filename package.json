@@ -1,7 +1,7 @@
 {
   "name": "handler.js",
   "description": "Handler.js",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "license": "MIT",
   "author": {
     "name": "Pilwon Huh",
@@ -55,6 +55,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "clean": "rm -fr build"
+    "clean": "rm -fr build",
+    "dev": "tsc -w"
   }
 }

@@ -1,4 +1,6 @@
 import { Router } from '../router';
+import { composeHandlers, removePrefix } from '../util';
+import { FunctionContext, FunctionContextOptions } from './context';
 import { FunctionHandler } from './handler';
 
 export interface FunctionRouteMatch {
@@ -8,7 +10,7 @@ export interface FunctionRouteMatch {
 
 export class FunctionRouter extends Router {
   use(handler: FunctionHandler): FunctionRouter {
-    this.middlewares.push(handler);
+    this._middlewares.push(handler);
     return this;
   }
 
@@ -17,13 +19,25 @@ export class FunctionRouter extends Router {
     return this;
   }
 
-  matchRoute(path: string): FunctionRouteMatch[] {
-    path = this._removePrefix(path);
+  async run(options: FunctionContextOptions): Promise<any> {
+    const ctx = new FunctionContext(options);
+
+    const matches = this._matchRoute(options.path);
+    const matchedHandlers = matches.map((match) => match.handler);
+    const handlers = this._middlewares.concat(matchedHandlers);
+
+    await composeHandlers(handlers)(ctx);
+
+    return ctx;
+  }
+
+  protected _matchRoute(path: string): FunctionRouteMatch[] {
+    path = removePrefix(path);
     if (path === null) {
       return null;
     }
     const result: FunctionRouteMatch[] = [];
-    for (const route of this.routes) {
+    for (const route of this._routes) {
       const params = route.match(path);
       if (params) {
         continue;

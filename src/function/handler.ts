@@ -1,3 +1,4 @@
-import { FunctionRequest } from './request';
+import { NextFunction } from '../handler';
+import { FunctionContext } from './context';
 
-export type FunctionHandler = (req: FunctionRequest, next?: () => Promise<any>) => Promise<any>;
+export type FunctionHandler = (ctx: FunctionContext, next?: NextFunction) => Promise<any>;

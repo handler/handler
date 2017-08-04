@@ -2,6 +2,7 @@ const pathMatch = require('path-match');
 
 import { PATH_PREFIX } from './const';
 import { Handler } from './handler';
+import { removePrefix } from './util';
 
 const _createMatch = pathMatch();
 
@@ -13,8 +14,8 @@ export interface Route {
 }
 
 export abstract class Router {
-  middlewares: Handler[] = [];
-  routes: Route[] = [];
+  protected _middlewares: Handler[] = [];
+  protected _routes: Route[] = [];
 
   protected _addRoute(method: string, path: string, handler: Handler) {
     const route = {
@@ -23,21 +24,11 @@ export abstract class Router {
       method,
       path,
     };
-    this.routes.push(route);
-  }
-
-  protected _removePrefix(path: string): string {
-    if (PATH_PREFIX === '' || PATH_PREFIX === '/') {
-      return path;
-    }
-    if (!path.startsWith(PATH_PREFIX)) {
-      return null;
-    }
-    return path.slice(PATH_PREFIX.length);
+    this._routes.push(route);
   }
 
   protected _rewritePath(path: string): string {
-    path = this._removePrefix(path);
+    path = removePrefix(path);
     let result = path
       // Collapse repeated slashes
       .replace(/(\/+)/g, '/')
