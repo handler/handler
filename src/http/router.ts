@@ -52,11 +52,12 @@ export class HTTPRouter extends Router {
     return this;
   }
 
-  matchRoute(method: string, path: string): HTTPRouteMatch {
+  matchRoute(method: string, path: string): HTTPRouteMatch[] {
     path = this._removePrefix(path);
     if (path === null) {
       return null;
     }
+    const result: HTTPRouteMatch[] = [];
     for (const route of this.routes) {
       const params = route.match(path);
       if (!params) {
@@ -65,11 +66,11 @@ export class HTTPRouter extends Router {
       if (method && route.method && (method !== route.method)) {
         continue;
       }
-      return {
+      result.push({
         handler: route.handler as HTTPHandler,
         params: params || {},
-      };
+      });
     }
-    return null;
+    return result;
   }
 }

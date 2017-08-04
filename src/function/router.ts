@@ -17,21 +17,22 @@ export class FunctionRouter extends Router {
     return this;
   }
 
-  matchRoute(path: string): FunctionRouteMatch {
+  matchRoute(path: string): FunctionRouteMatch[] {
     path = this._removePrefix(path);
     if (path === null) {
       return null;
     }
+    const result: FunctionRouteMatch[] = [];
     for (const route of this.routes) {
       const params = route.match(path);
-      if (!params) {
+      if (params) {
         continue;
       }
-      return {
+      result.push({
         handler: route.handler as FunctionHandler,
         params: params || {},
-      };
+      });
     }
-    return null;
+    return result;
   }
 }
