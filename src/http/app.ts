@@ -80,18 +80,17 @@ export class HTTPApplication extends Application {
       return ctx;
     }
 
-    const middlewares = [_errorHandler].concat(this._middlewares);
+    const middlewares = [_defaultErrorHandler].concat(this._middlewares);
     const matches = this._matchRoute(options.method, options.path);
     const matchedHandlers = matches.map((match) => match.handler);
     const handlers = middlewares.concat(matchedHandlers);
 
     const preHandle = async (h: HTTPHandler, c: HTTPContext) => {
       for (const match of matches) {
-        if (match.handler !== h) {
-          continue;
+        if (match.handler === h) {
+          c.req.params = match.params;
+          break;
         }
-        c.req.params = match.params;
-        break;
       }
     };
 
@@ -123,7 +122,7 @@ export class HTTPApplication extends Application {
   }
 }
 
-async function _errorHandler(ctx: HTTPContext, next: NextFunction) {
+async function _defaultErrorHandler(ctx: HTTPContext, next: NextFunction) {
   try {
     await next();
   } catch (err) {
