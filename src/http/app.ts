@@ -1,4 +1,4 @@
-import { Router } from '../router';
+import { Application, RoutePath } from '../app';
 import { composeHandlers, removePrefix } from '../util';
 import { HTTPContext, HTTPContextOptions } from './context';
 import { HTTPHandler } from './handler';
@@ -8,49 +8,65 @@ export interface HTTPRouteMatch {
   params: {};
 }
 
-export class HTTPRouter extends Router {
-  use(handler: HTTPHandler): HTTPRouter {
+export class HTTPApplication extends Application {
+  use(handler: HTTPHandler): HTTPApplication {
     this._middlewares.push(handler);
     return this;
   }
 
-  all(path: string, handler: HTTPHandler): HTTPRouter {
-    this._addRoute(null, path, handler);
+  all(path: RoutePath, ...handlers: HTTPHandler[]): HTTPApplication {
+    for (const handler of handlers) {
+      this._addRoute(null, path, handler);
+    }
     return this;
   }
 
-  delete(path: string, handler: HTTPHandler): HTTPRouter {
-    this._addRoute('DELETE', path, handler);
+  delete(path: RoutePath, ...handlers: HTTPHandler[]): HTTPApplication {
+    for (const handler of handlers) {
+      this._addRoute('DELETE', path, handler);
+    }
     return this;
   }
 
-  get(path: string, handler: HTTPHandler): HTTPRouter {
-    this._addRoute('GET', path, handler);
+  get(path: RoutePath, ...handlers: HTTPHandler[]): HTTPApplication {
+    for (const handler of handlers) {
+      this._addRoute('GET', path, handler);
+    }
     return this;
   }
 
-  head(path: string, handler: HTTPHandler): HTTPRouter {
-    this._addRoute('HEAD', path, handler);
+  head(path: RoutePath, ...handlers: HTTPHandler[]): HTTPApplication {
+    for (const handler of handlers) {
+      this._addRoute('HEAD', path, handler);
+    }
     return this;
   }
 
-  options(path: string, handler: HTTPHandler): HTTPRouter {
-    this._addRoute('OPTIONS', path, handler);
+  options(path: RoutePath, ...handlers: HTTPHandler[]): HTTPApplication {
+    for (const handler of handlers) {
+      this._addRoute('OPTIONS', path, handler);
+    }
     return this;
   }
 
-  patch(path: string, handler: HTTPHandler): HTTPRouter {
-    this._addRoute('PATCH', path, handler);
+  patch(path: RoutePath, ...handlers: HTTPHandler[]): HTTPApplication {
+    for (const handler of handlers) {
+      this._addRoute('PATCH', path, handler);
+    }
     return this;
   }
 
-  post(path: string, handler: HTTPHandler): HTTPRouter {
-    this._addRoute('POST', path, handler);
+  post(path: RoutePath, ...handlers: HTTPHandler[]): HTTPApplication {
+    for (const handler of handlers) {
+      this._addRoute('POST', path, handler);
+    }
     return this;
   }
 
-  put(path: string, handler: HTTPHandler): HTTPRouter {
-    this._addRoute('PUT', path, handler);
+  put(path: RoutePath, ...handlers: HTTPHandler[]): HTTPApplication {
+    for (const handler of handlers) {
+      this._addRoute('PUT', path, handler);
+    }
     return this;
   }
 

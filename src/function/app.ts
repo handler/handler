@@ -1,4 +1,4 @@
-import { Router } from '../router';
+import { Application, RoutePath } from '../app';
 import { composeHandlers, removePrefix } from '../util';
 import { FunctionContext, FunctionContextOptions } from './context';
 import { FunctionHandler } from './handler';
@@ -8,14 +8,16 @@ export interface FunctionRouteMatch {
   params: {};
 }
 
-export class FunctionRouter extends Router {
-  use(handler: FunctionHandler): FunctionRouter {
+export class FunctionApplication extends Application {
+  use(handler: FunctionHandler): FunctionApplication {
     this._middlewares.push(handler);
     return this;
   }
 
-  all(path: string, handler: FunctionHandler): FunctionRouter {
-    this._addRoute(null, path, handler);
+  all(path: RoutePath, ...handlers: FunctionHandler[]): FunctionApplication {
+    for (const handler of handlers) {
+      this._addRoute(null, path, handler);
+    }
     return this;
   }
 

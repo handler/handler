@@ -6,19 +6,21 @@ import { removePrefix } from './util';
 
 const _createMatch = pathMatch();
 
+export type RoutePath = string | RegExp | Array<string | RegExp>;
+
 export interface Route {
-  path: string;
+  path: RoutePath;
   handler: Handler;
   match: any;
   method?: string;
 }
 
-export abstract class Router {
+export abstract class Application {
   protected _middlewares: Handler[] = [];
   protected _routes: Route[] = [];
 
-  protected _addRoute(method: string, path: string, handler: Handler) {
-    const route = {
+  protected _addRoute(method: string, path: RoutePath, handler: Handler) {
+    const route: Route = {
       handler,
       match: _createMatch(path),
       method,
